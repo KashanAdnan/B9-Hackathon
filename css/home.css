@@ -18,7 +18,7 @@ nav {
   top: 0;
 }
 
-nav h1 {
+nav a {
   font-weight: 400;
   font-size: 22px;
 }
@@ -36,6 +36,14 @@ header {
   position: fixed;
   top: 47px;
   background-color: #fff;
+}
+.buttons {
+  width: 100%;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+.buttons a {
+  margin-right: 10px;
 }
 
 header h1 {
@@ -90,7 +98,16 @@ main .blog {
   justify-content: flex-start;
   margin-bottom: 20px;
 }
-
+.buttons a {
+  cursor: pointer;
+  padding: 10px 30px;
+  border: 1px solid #fff;
+  transition: 0.3s;
+}
+.buttons a:hover {
+  border: 1px solid #7749f8;
+  border-radius: 5px;
+}
 .user-name {
   margin-left: 30px;
 }
@@ -128,7 +145,7 @@ nav > div > a:last-child {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-blog input,
+input,
 textarea {
   padding: 10px 10px;
   width: 100%;
@@ -137,7 +154,7 @@ textarea {
   outline: 0;
   border-radius: 5px;
 }
-.form-blog button {
+button {
   padding: 10px 30px;
   border-radius: 5px;
   background-color: #7749f8;

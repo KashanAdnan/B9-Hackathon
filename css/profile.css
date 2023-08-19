@@ -16,10 +16,11 @@ nav {
   padding: 10px 100px;
   color: white;
   position: fixed;
+  z-index: 999;
   top: 0;
 }
 
-nav h1 {
+nav a {
   font-weight: 400;
   font-size: 22px;
 }

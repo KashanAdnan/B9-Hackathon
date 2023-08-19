@@ -8,6 +8,8 @@ import {
   query,
   where,
   getDocs,
+  doc,
+  updateDoc,
   addDoc,
   deleteDoc,
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-firestore.js";
@@ -92,7 +94,7 @@ onAuthStateChanged(auth, async (user) => {
           getDownloadURL(ref(storage, docu.data().email))
             .then((url) => {
               document.querySelector(".blogs").innerHTML += `
-            <div class="blog">
+            <div class="blog" id="${doc.id}">
             <div class="image-user">
             <img
             src="${url}"
@@ -106,7 +108,12 @@ onAuthStateChanged(auth, async (user) => {
             <p>
             ${doc.data().blog}
             </p>
-           <a onclick="deletePost('${doc.id}')">Delete</a>
+            <div class="buttons">
+            <a onclick="deletePost('${doc.id}')">Delete</a>
+            <a onclick="updatePost('${doc.id}' , '${url}','${
+                docu.data().first_name
+              }','${doc.data().placeholder}','${doc.data().date}','${doc.data().blog}')">Update</a>
+            </div>
   
             `;
             })
@@ -126,10 +133,39 @@ onAuthStateChanged(auth, async (user) => {
       })
         .then(async (result) => {
           if (result.isConfirmed) {
-            const data =await deleteDoc(doc(db, "blogs", id));
+            await deleteDoc(doc(db, "blogs", id));
+            getData();
           }
         })
         .catch((error) => {});
+    };
+    window.updatePost = async (id, url, first, placeholder, date, blog) => {
+      document.getElementById(`${id}`).innerHTML = `
+      <div class="image-user">
+      <img
+      src="${url}"
+      alt=""
+      />
+      <div class="user-name">
+      <input type="text" id="title-${id}" value="${placeholder}"></h1>
+      <p>${first} - ${date}</p>
+      </div>
+      </div>
+      <textarea id="para-${id}" >${blog}</textarea>
+      <div class='buttons'>
+      
+      <button onclick="update('${id}')">Update</button>
+      </div>    
+        `;
+    };
+    window.update = async (id) => {
+      const washingtonRef = doc(db, "blogs", id);
+
+      await updateDoc(washingtonRef, {
+        placeholder: document.getElementById(`title-${id}`).value,
+        blog: document.getElementById(`para-${id}`).value,
+      });
+      getData();
     };
     getData();
   } else {
