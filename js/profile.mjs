@@ -2,6 +2,7 @@ import { auth, db, storage } from "./firebase.mjs";
 import {
   onAuthStateChanged,
   signOut,
+  updatePassword
 } from "https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js";
 import {
   collection,
@@ -46,11 +47,27 @@ onAuthStateChanged(auth, async (user) => {
       
             <h1>Password</h1>
             <input type="text" id="old-password" placeholder="Old password" />
-            <input type="text" id="new-password"  placeholder="New password" />
-            <input type="text" id="repeat-password" placeholder="Repeat password" />
-            <button onclick="updatePassword()">Update Password</button>
+            <input type="text" id="p"  placeholder="New password" />
+            <input type="text" id="uP" placeholder="Repeat password" />
+            <button id="updatePasswor">Update Password</button>
         `;
-        document.getElementById("old-password").value = doc.data().password
+        document.getElementById("updatePasswor").addEventListener("click", () => {
+          // window.updatePassword = () => {
+          const user = auth.currentUser;
+          const newPassword = document.getElementById("uP").value;
+          const password = document.getElementById("p").value;
+          if (password == newPassword) {
+            updatePassword(user, newPassword)
+              .then(() => {
+                console.log("done");
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+          // };
+        });
+        document.getElementById("old-password").value = doc.data().password;
       });
       document.querySelector("#profile").innerHTML = `${
         doc.data().first_name
@@ -90,7 +107,6 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     console.log("sad");
   }
-  window.updatePassword = () =>{
-      
-  }
 });
+
+
